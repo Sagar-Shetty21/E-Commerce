@@ -1,8 +1,16 @@
-import React from 'react'
+import React from 'react';
+import link from 'next/link';
 
-const FooterBanner = () => {
+import { urlFor } from '../lib/client';
+
+const FooterBanner = ( footerBanner ) => {
   return (
-    <div>FooterBanner</div>
+    <div className="footer-banner-container">
+      <div clasName="footer-desc" >
+        <div className="left"></div>
+        <div className="right"></div>
+      </div>
+    </div>
   )
 }
 
