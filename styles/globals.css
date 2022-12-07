@@ -154,7 +154,7 @@ width: 100%;
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
-  z-index:10000 !important;
+  /* z-index:10000 !important; */
 }
 
 .hero-banner-container h3{
