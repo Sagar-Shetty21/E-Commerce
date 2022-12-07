@@ -127,7 +127,7 @@ width: 100%;
   margin-top: 6px;
   color: black;
 }
-
+cart-product-image
 .hero-banner-container{
   padding: 100px 40px;
   background-color: #dcdcdc;
@@ -703,8 +703,8 @@ margin-top: 160px;
 
   }
   .product .cart-product-image{
-    width: 25%;
-    height: 25%;
+    width: 150px;
+    height: 150px;
   }
   .buttons .add-to-cart{
     width: 150px;
