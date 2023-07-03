@@ -1,4 +1,10 @@
+'use client';
+
 import '@styles/global.css';
+import { StateContext } from '../utils/context/StateContext';
+
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 export const metadata = {
     title: "SVR Color Lab",
@@ -8,15 +14,23 @@ export const metadata = {
 const Rootlayout = ({children}) => {
   return (
     <html lang='en'>
-        <body>
-            <div className="main">
-                <div className="gradient"/>
-            </div>
+        <StateContext>
+            <body>
+                <header>
+                    <Navbar />
+                </header>
+                <div className="main">
+                    <div className="gradient"/>
+                </div>
 
-            <main className="app">
-                {children}
-            </main>
-        </body>
+                <main className="app">
+                    {children}
+                </main>
+                <footer>
+                    <Footer />
+                </footer>
+            </body>
+        </StateContext>
     </html>
   )
 }

@@ -1,3 +1,6 @@
+'use client'
+
+import { Product, FooterBanner, HeroBanner } from '../components';
 
 
 const Home = () => {
