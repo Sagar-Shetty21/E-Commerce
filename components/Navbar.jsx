@@ -2,25 +2,58 @@
 
 import Link from 'next/link';
 import { AiOutlineShopping } from 'react-icons/ai'
-import { Cart } from './';
-import { useStateContext } from '../utils/context/StateContext';
+import styled from 'styled-components';
+import Center from './Center';
+import { useContext } from 'react';
+import { CartContext } from '@context/CartContext';
+
+const StyledHeader = styled.header`
+  background-color: #fff;
+`;
+const LogoContainer = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const Logo = styled.img`
+  width: 220px;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+`;
+const StyledNav = styled.nav`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
+const NavLink = styled(Link)`
+  color: #aaa;
+  font-weight: bold;
+  &:hover{
+    color: #4b4b4b;
+  }
+`;
 
 const Navbar = () => {
-  const { showCart, setShowCart, totalQuantities } = useStateContext();
+  const {cartProducts} = useContext(CartContext);
 
   return (
-    <div className="navbar-container">
-      <p className="logo">
-        <Link href="/">SVR Color Lab</Link>
-      </p>
-
-      <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
-        <AiOutlineShopping />
-        <span className="cart-item-qty">{totalQuantities}</span>
-      </button>
-
-      {showCart && <Cart />}
-    </div>
+    <StyledHeader>
+      <Center>
+        <Wrapper>
+          <LogoContainer href="/"><Logo src="/assets/company-logo.svg" alt="logo"/></LogoContainer>
+          <StyledNav>
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/products">Products</NavLink> 
+            <NavLink href="/categories">Categories</NavLink>
+            <NavLink href="/account">Account</NavLink>
+            <NavLink href="/cart">Cart ({cartProducts.length})</NavLink>
+          </StyledNav>
+        </Wrapper>
+      </Center>
+    </StyledHeader>
   )
 }
 
