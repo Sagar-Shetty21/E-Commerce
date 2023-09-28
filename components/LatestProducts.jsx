@@ -18,7 +18,7 @@ const LatestProducts = ({data}) => {
         <Title>New Arrivals</Title>
         <ProductsGrid>
             {data?.length > 0 && data.map(product => (
-                <ProductCard key={product._id} {...product}/>
+                <ProductCard key={product?._id} {...product}/>
             ))}
         </ProductsGrid>
     </Center>

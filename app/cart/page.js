@@ -238,7 +238,7 @@ const CartPage = () => {
                 <CartItemsHeading>Cart Items</CartItemsHeading>
                 <CartContent>
                   {products.map(product => (
-                    <CartItem key={product._id} item={product} quantity={cartProducts.filter(id => id === product._id).length}/>
+                    <CartItem key={product._id} item={product} quantity={cartProducts.filter(id => id === product._id)?.length}/>
                   ))}
                 </CartContent>
               </CartItemsContainer>

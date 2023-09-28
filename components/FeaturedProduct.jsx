@@ -23,6 +23,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 40px;
+  padding: 40px 0;
   img{
     max-width: 100%;
     width: 100%;

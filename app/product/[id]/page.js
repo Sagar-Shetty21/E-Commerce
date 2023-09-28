@@ -5,6 +5,7 @@ import ColorOptions from "@components/ColorOptions";
 import DimensionOptions from "@components/DimensionOptions";
 import FrameDesignOptions from "@components/FrameDesignOptions";
 import ProductDetailsCarousel from "@components/ProductImageCarousel";
+import RelatedProducts from "@components/RelatedProducts";
 import SizeOptions from "@components/SizeOptions";
 import axios from "axios";
 import { useParams } from 'next/navigation'
@@ -107,16 +108,23 @@ const AddToCartBtn = styled.button`
 const ProductPage = () => {
     const {id} = useParams()
     const [product, setProduct] = useState({})
+    const [relatedProducts, setRelatedProducts] = useState([])
 
     const [selectedDimension, setSelectedDimension] = useState(null);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedFrameDesign, setSelectedFrameDesign] = useState(null);
 
     const [productPrice, setProductPrice] = useState("")
 
     useEffect(() => {
-        const res = axios.get(`/api/products?id=${id}`).then(response => {
+        const getProductInfo = axios.get(`/api/products?id=${id}`).then(response => {
             setProduct(response.data);
             setProductPrice(response.data.price)
         })
+        /* const getRelatedProducts = axios.get(`/api/related`).then(response => {
+          setRelatedProducts(response.data);
+        }) */
     },[])
     
     return(
@@ -140,10 +148,10 @@ const ProductPage = () => {
                             <TaxInfo>incl. of taxes</TaxInfo>
                             <TaxInfo>{`(Also includes all applicable duties)`}</TaxInfo>
 
-                            {product.properties?.dimensions.length > 0 && <DimensionOptions data={product.properties.dimensions} setSelectedDimension={setSelectedDimension} selectedDimension={selectedDimension} setProductPrice={setProductPrice}/>}
-                            {product.properties?.size.length > 0 && <SizeOptions data={product.properties.size} />}
-                            {product.properties?.color.length > 0 && <ColorOptions data={product.properties.color} />}
-                            {product.properties?.frame.length > 0 && <FrameDesignOptions data={product.properties.frame} />}
+                            {product.properties?.dimensions?.length > 0 && <DimensionOptions data={product.properties.dimensions} setSelectedDimension={setSelectedDimension} selectedDimension={selectedDimension} setProductPrice={setProductPrice} />}
+                            {product.properties?.size?.length > 0 && <SizeOptions data={product.properties.size} setSelectedSize={setSelectedSize} selectedSize={selectedSize} setProductPrice={setProductPrice} />}
+                            {product.properties?.color?.length > 0 && <ColorOptions data={product.properties.color} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />}
+                            {product.properties?.frame?.length > 0 && <FrameDesignOptions data={product.properties.frame} selectedFrameDesign={selectedFrameDesign} setSelectedFrameDesign={setSelectedFrameDesign} setProductPrice={setProductPrice} />}
 
 
                             <AddToCartBtn>Add to Cart</AddToCartBtn>
@@ -161,8 +169,7 @@ const ProductPage = () => {
                         </RightColumn>
                     </StyledContainer>
 
-                    {/* RelatedProducts component */}
-                    {/* You can style RelatedProducts separately or pass styles as props */}
+                    {relatedProducts?.length > 0 && <RelatedProducts products={relatedProducts} />}
                 </Wrapper>
             </Container>
         </Center>

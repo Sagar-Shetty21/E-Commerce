@@ -10,7 +10,7 @@ const StyledTitleContainer = styled.div`
   margin-bottom: 0.5rem; /* Equivalent to mb-2 */
 `;
 
-const SelectSize = styled.div`
+const SelectDimension = styled.div`
   font-size: 1rem; /* Equivalent to text-md */
   font-weight: 600; /* Equivalent to font-semibold */
 `;
@@ -21,7 +21,7 @@ const DimensionGridContainer = styled.div`
   gap: 2px; /* Equivalent to gap-2 */
 `;
 
-const SizeItem = styled.div`
+const DimensionItem = styled.div`
   border: 1px solid #e5e5e5; /* Equivalent to border */
   border-radius: 0.25rem; /* Equivalent to rounded-md */
   text-align: center;
@@ -44,11 +44,11 @@ const DimensionOptions = ({data, setSelectedDimension, selectedDimension, setPro
   return (
     <Container>
         <StyledTitleContainer>
-            <SelectSize>Select Dimensions</SelectSize>
+            <SelectDimension>Select Dimensions</SelectDimension>
         </StyledTitleContainer>
         <DimensionGridContainer id="sizesGrid">
             {data.map((item, i) => (
-                <SizeItem
+                <DimensionItem
                     key={i}
                     selected={selectedDimension===item}
                     onClick={() => {
@@ -57,7 +57,7 @@ const DimensionOptions = ({data, setSelectedDimension, selectedDimension, setPro
                     }}
                     >
                     {item.width} x {item.height}
-                </SizeItem>
+                </DimensionItem>
             ))}
         </DimensionGridContainer>
         {!selectedDimension && (
