@@ -52,8 +52,8 @@ const FeaturedProduct = ({data}) => {
         <Wrapper>
           <Column>
             <div>
-              <Title>{data.title}</Title>
-              <Description>{data.description}</Description>
+              <Title>{data?.title}</Title>
+              <Description>{data?.description}</Description>
               <ButtonsWrapper>
                 <LinkButton href="/products/id" white={1} outline={1} size="l">View</LinkButton>
                 <Button primary={1} size="l" onClick={() => handleCartAdd()}>

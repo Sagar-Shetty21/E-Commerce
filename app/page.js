@@ -19,7 +19,7 @@ const Home = () => {
   useEffect(() => {
     const getFeaturedProduct = async() => {
       const res = await axios.get('/api/products/featured');
-      setFeaturedProduct(res.data)
+      setFeaturedProduct(res?.data?.[0].product)
     };
     const getLatestProducts = async() => {
       const res = await axios.get('/api/products/latest');

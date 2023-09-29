@@ -1,9 +1,4 @@
-'use client'
-
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import GlobalStyle from '@components/GlobalStyle';
-import {CartContextProvider} from '@context/CartContext';
+import App from "@components/App"
 
 export const metadata = {
     title: "SVR Color Lab",
@@ -13,19 +8,7 @@ export const metadata = {
 const Rootlayout = ({children}) => {
   return (
     <html lang='en'>
-        <GlobalStyle>
-            <CartContextProvider>
-                <body>
-                    <Navbar />
-                    <main className="app">
-                        {children}
-                    </main>
-                    <footer>
-                        <Footer />
-                    </footer>
-                </body>
-            </CartContextProvider>
-        </GlobalStyle>
+        <App>{children}</App>
     </html>
   )
 }
