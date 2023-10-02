@@ -7,7 +7,6 @@ import { mongooseConnect } from '@lib/mongoose';
 export async function GET(request) {
     await mongooseConnect();
     const id = request.nextUrl.searchParams.get('id');
-    console.log(id)
     if(id){
         return NextResponse.json(await Product.findOne({_id: id}));
     }

@@ -9,8 +9,11 @@ import RelatedProducts from "@components/RelatedProducts";
 import SizeOptions from "@components/SizeOptions";
 import axios from "axios";
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { useContext } from "react";
+import { CartContext } from "@context/CartContext";
+import toast from "react-hot-toast";
 
 const Container = styled.div`
   width: 100%;
@@ -94,6 +97,7 @@ const AddToCartBtn = styled.button`
   transition: transform 0.2s, opacity 0.2s; /* Equivalent to transition-transform */
   cursor: pointer;
   margin-bottom: 1rem; /* Equivalent to mb-3 */
+  margin-top: 1rem;
 
   &:hover {
     opacity: 0.75; /* Equivalent to hover:opacity-75 */
@@ -107,6 +111,13 @@ const AddToCartBtn = styled.button`
 
 const ProductPage = () => {
     const {id} = useParams()
+    const dimensionRef = useRef(null);
+    const sizeRef = useRef(null);
+    const colorRef = useRef(null);
+    const frameRef = useRef(null);
+
+    const {addToCart} = useContext(CartContext)
+
     const [product, setProduct] = useState({})
     const [relatedProducts, setRelatedProducts] = useState([])
 
@@ -122,10 +133,29 @@ const ProductPage = () => {
             setProduct(response.data);
             setProductPrice(response.data.price)
         })
-        /* const getRelatedProducts = axios.get(`/api/related`).then(response => {
-          setRelatedProducts(response.data);
-        }) */
+        const getRelatedProducts = axios.get(`/api/products/related`).then(response => {
+            setRelatedProducts(response.data);
+        })
     },[])
+
+    const handleAddToCart = () => {
+      if(product.properties?.dimensions?.length > 0 && !selectedDimension){
+        dimensionRef.current.scrollIntoView({ behavior: 'smooth' });
+        toast.error('Please choose a dimension!')
+      }else if(product.properties?.size?.length > 0 && !selectedSize){
+        sizeRef.current.scrollIntoView({ behavior: 'smooth' });
+        toast.error('Please choose a size!')
+      }else if(product.properties?.color?.length > 0 && !selectedColor){
+        colorRef.current.scrollIntoView({ behavior: 'smooth' });
+        toast.error('Please choose a color!')
+      }else if(product.properties?.frame?.length > 0 && !selectedFrameDesign){
+        frameRef.current.scrollIntoView({ behavior: 'smooth' });
+        toast.error('Please choose a frame design!')
+      }else{
+        addToCart(id)
+        toast.success('Item added to cart')
+      }
+    }
     
     return(
         <Center>
@@ -148,17 +178,13 @@ const ProductPage = () => {
                             <TaxInfo>incl. of taxes</TaxInfo>
                             <TaxInfo>{`(Also includes all applicable duties)`}</TaxInfo>
 
-                            {product.properties?.dimensions?.length > 0 && <DimensionOptions data={product.properties.dimensions} setSelectedDimension={setSelectedDimension} selectedDimension={selectedDimension} setProductPrice={setProductPrice} />}
-                            {product.properties?.size?.length > 0 && <SizeOptions data={product.properties.size} setSelectedSize={setSelectedSize} selectedSize={selectedSize} setProductPrice={setProductPrice} />}
-                            {product.properties?.color?.length > 0 && <ColorOptions data={product.properties.color} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />}
-                            {product.properties?.frame?.length > 0 && <FrameDesignOptions data={product.properties.frame} selectedFrameDesign={selectedFrameDesign} setSelectedFrameDesign={setSelectedFrameDesign} setProductPrice={setProductPrice} />}
+                            {product.properties?.dimensions?.length > 0 && <DimensionOptions ref={dimensionRef} data={product.properties.dimensions} setSelectedDimension={setSelectedDimension} selectedDimension={selectedDimension} setProductPrice={setProductPrice} />}
+                            {product.properties?.size?.length > 0 && <SizeOptions ref={sizeRef} data={product.properties.size} setSelectedSize={setSelectedSize} selectedSize={selectedSize} setProductPrice={setProductPrice} />}
+                            {product.properties?.color?.length > 0 && <ColorOptions ref={colorRef} data={product.properties.color} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />}
+                            {product.properties?.frame?.length > 0 && <FrameDesignOptions ref={frameRef} data={product.properties.frame} selectedFrameDesign={selectedFrameDesign} setSelectedFrameDesign={setSelectedFrameDesign} setProductPrice={setProductPrice} />}
 
 
-                            <AddToCartBtn>Add to Cart</AddToCartBtn>
-
-                            {/* WHISHLIST BUTTON START */}
-                            
-                            {/* WHISHLIST BUTTON END */}
+                            <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
 
                             <div>
                                 <ProductDescTitle>Product Details</ProductDescTitle>

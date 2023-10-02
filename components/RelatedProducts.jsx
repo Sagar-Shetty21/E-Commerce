@@ -17,9 +17,9 @@ const Container = styled.div`
 `;
 
 const StyledHeading = styled.div`
-  font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind CSS */
-  font-weight: bold; /* Equivalent to font-bold in Tailwind CSS */
-  margin-bottom: 1.25rem; /* Equivalent to mb-5 in Tailwind CSS */
+  font-size: 1.5rem; 
+  font-weight: bold;
+  margin-bottom: 1.25rem;
 `;
 
 const RelatedProducts = ({ products }) => {
@@ -46,7 +46,7 @@ const RelatedProducts = ({ products }) => {
                 containerClass="-mx-[10px]"
                 itemClass="px-[10px]"
             >
-                {products?.data?.map((product) => (
+                {products?.map((product) => (
                     <ProductCard key={product?.id} {...product} />
                 ))}
             </Carousel>

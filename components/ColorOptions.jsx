@@ -1,4 +1,5 @@
 
+import React from "react";
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -39,11 +40,11 @@ const StyledErrorMessage = styled.div`
   margin-top: 0.25rem; /* Equivalent to mt-1 */
 `;
 
-const ColorOptions = ({data, setSelectedColor, selectedColor}) => {
+const ColorOptions = React.forwardRef(({data, setSelectedColor, selectedColor}, ref) => {
   return (
     <Container>
         <StyledTitleContainer>
-            <SelectColor>Select Color</SelectColor>
+            <SelectColor ref={ref}>Select Color</SelectColor>
         </StyledTitleContainer>
         <ColorGridContainer id="sizesGrid">
             {data.map((item, i) => (
@@ -64,6 +65,6 @@ const ColorOptions = ({data, setSelectedColor, selectedColor}) => {
         )}
     </Container>
   )
-}
+})
 
 export default ColorOptions

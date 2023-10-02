@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -80,14 +80,14 @@ const OptionItem = styled.li`
   }
 `;
 
-const FrameDesignOptions = ({data, setSelectedFrameDesign, selectedFrameDesign}) => {
+const FrameDesignOptions = React.forwardRef(({data, setSelectedFrameDesign, selectedFrameDesign}, ref) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Container>
         <CustomSelect>
             <StyledTitleContainer>
-                <SelectFrameDesign>Select Frame Design</SelectFrameDesign>
+                <SelectFrameDesign ref={ref}>Select Frame Design</SelectFrameDesign>
             </StyledTitleContainer>
             <SelectedOption onClick={() => setIsOpen(!isOpen)}>
                 {selectedFrameDesign ? 
@@ -122,9 +122,8 @@ const FrameDesignOptions = ({data, setSelectedFrameDesign, selectedFrameDesign})
             </StyledErrorMessage>
         )}
     </Container>
-
   )
-}
+})
 
 export default FrameDesignOptions
 

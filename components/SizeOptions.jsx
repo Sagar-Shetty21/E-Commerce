@@ -1,4 +1,5 @@
 
+import React from "react";
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -41,11 +42,11 @@ const StyledErrorMessage = styled.div`
   margin-top: 0.25rem; /* Equivalent to mt-1 */
 `;
 
-const SizeOptions = ({data, setSelectedSize, selectedSize, setProductPrice}) => {
+const SizeOptions =  React.forwardRef(({data, setSelectedSize, selectedSize, setProductPrice}, ref) => {
   return (
     <Container>
         <StyledTitleContainer>
-            <SelectSize>Select Size</SelectSize>
+            <SelectSize ref={ref}>Select Size</SelectSize>
         </StyledTitleContainer>
         <SizeGridContainer id="sizesGrid">
             {data.map((item, i) => (
@@ -68,6 +69,6 @@ const SizeOptions = ({data, setSelectedSize, selectedSize, setProductPrice}) => 
         )}
     </Container>
   )
-}
+})
 
 export default SizeOptions

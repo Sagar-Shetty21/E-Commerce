@@ -3,7 +3,7 @@ import { FaMapMarkerAlt, FaTwitter, FaYoutube, FaInstagram } from 'react-icons/f
 import Center from './Center';
 
 const FooterWrapper = styled.footer`
-  background-color: #000;
+  background-color: #222222;
   color: #fff;
   padding-top: 3rem;
   padding-bottom: 0.75rem;
@@ -29,7 +29,7 @@ const MenuSection = styled.div`
   flex-shrink: 0;
 
   @media (min-width: 768px) {
-    gap: 1.25rem;
+    gap: 1.1rem;
   }
 
   .font-oswald {
@@ -54,11 +54,13 @@ const MenuSection = styled.div`
 const SocialLinks = styled.div`
   display: flex;
   gap: 0.25rem;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 
   .social-icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.0rem;
+    height: 2.0rem;
     background-color: rgba(255, 255, 255, 0.25);
     border-radius: 50%;
     display: flex;
@@ -89,41 +91,48 @@ const FooterText = styled.div`
   }
 `;
 
+const PhoneNumbers = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+`;
+
+const Logo = styled.img`
+  height: 82px;
+`;
+
+const Address = styled.div`
+  font-size: 12px;
+  color: #a7a7a7a1;
+  font-weight: 600;
+`
+
 const Footer = () => {
   return (
     <FooterWrapper>
       <Center>
         <ContentWrapper>
-          <MenuSection>
+          {/* <MenuSection>
             <div className="font-oswald">Find a store</div>
             <a>become a partner</a>
             <a>send us feedback</a>
             <a>contact developer</a>
-          </MenuSection>
+          </MenuSection> */}
           <MenuSection>
-            <div className="font-oswald">get help</div>
-            <a>Order Status</a>
-            <a>Delivery</a>
-            <a>Returns</a>
-            {/* <a>Payment Options</a>
-            <a>Contact Us</a> */}
-          </MenuSection>
-          <MenuSection>
-            <div className="font-oswald">About Us</div>
-            <a>News</a>
-            <a>Careers</a>
-            <a>Investors</a>
-            <a>Sustainability</a>
+            <div className="font-oswald">Contact us</div>
+            <PhoneNumbers>
+              <a href="tel:+919886487688">+91 9886487688</a>
+              <a href="tel:+919880151628">+91 9880151628</a>
+              <a href="tel:+919448908847">+91 9448908847</a>
+            </PhoneNumbers>
+            <a href="mailto:svrlabkrpur2020@gmail.com">svrlabkrpur2020@gmail.com</a>
           </MenuSection>
           <SocialLinks>
+            <Logo src="/assets/svr-color-lab-logo.svg" alt="company logo" />
+            <Address>#2.Flower Garden Devasandra Main Road, </Address>
+            <Address>Near Hotel Nalapaka, K R Pura-560036</Address>
             <div className="social-icon" onClick={() => window.open('https://maps.app.goo.gl/Yg6cFJ1Qm1oZ9Jft7', '_blank')}>
-              <FaMapMarkerAlt size={20} />
-            </div>
-            <div className="social-icon">
-              <FaYoutube size={20} />
-            </div>
-            <div className="social-icon">
-              <FaInstagram size={20} />
+              <FaMapMarkerAlt size={16} />
             </div>
           </SocialLinks>
         </ContentWrapper>

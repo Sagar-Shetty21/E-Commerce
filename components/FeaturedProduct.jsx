@@ -2,9 +2,9 @@ import styled from "styled-components"
 import Center from "./Center"
 import Button from "./Button";
 import LinkButton from "./LinkButton";
-import CartIcon from "./CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@context/CartContext";
+import Link from "next/link";
 
 const Background = styled.div`
   background-color: #222;
@@ -41,10 +41,6 @@ const ButtonsWrapper = styled.div`
 
 
 const FeaturedProduct = ({data}) => {
-  const {addToCart} = useContext(CartContext);
-  const handleCartAdd = () => {
-    addToCart(data._id)
-  }
 
   return (
     <Background>
@@ -55,11 +51,12 @@ const FeaturedProduct = ({data}) => {
               <Title>{data?.title}</Title>
               <Description>{data?.description}</Description>
               <ButtonsWrapper>
-                <LinkButton href="/products/id" white={1} outline={1} size="l">View</LinkButton>
-                <Button primary={1} size="l" onClick={() => handleCartAdd()}>
-                  <CartIcon />
-                  Add to cart
-                </Button>
+                <LinkButton href={`/product/${data._id}`} white={1} outline={1} size="l">View</LinkButton>
+                <Link href={`/product/${data._id}`}>
+                  <Button primary={1} size="l">
+                    Get Now
+                  </Button>
+                </Link>
               </ButtonsWrapper>
             </div>
           </Column>

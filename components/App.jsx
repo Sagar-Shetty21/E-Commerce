@@ -5,6 +5,7 @@ import GlobalStyle from './GlobalStyle'
 import AllContextsProvider from './AllContextsProvider'
 import Footer from './Footer'
 import Navbar from './Navbar'
+import { Toaster } from "react-hot-toast"
 
 const App = ({children}) => {
   return (
@@ -12,6 +13,10 @@ const App = ({children}) => {
         <GlobalStyle>
             <AllContextsProvider>
                 <body>
+                    <Toaster
+                        position="bottom-center"
+                        reverseOrder={false}
+                    />
                     <Navbar />
                     <main className="app">
                         {children}
