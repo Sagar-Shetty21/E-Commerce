@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         font-family: 'Josefin Sans', sans-serif;
         background-color: #FCFCFF;
+        min-height: 100vh;
     }
     a{
         text-decoration: none;

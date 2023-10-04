@@ -174,11 +174,12 @@ const ExpandButton = styled.div`
   }
 `;
 const MoreProductInfo = styled.div`
-  height: 0;
+  max-height: 0;
   overflow: hidden;
-  transition: height 0.8s ease;
+  transition: 375ms cubic-bezier(0.4, 0.0, 0.2, 1);
   ${props => props.expandCard && css`
-    height: auto;
+    max-height: 150px;
+    padding: 0 10px;
   `}
 `;
 
@@ -229,9 +230,9 @@ const CartItem = ({item, quantity}) => {
         </ProductInfoContainer>
       </CartItemContainer>
       <MoreInfoContainer>
-        {expandCard && 
-          <MoreProductInfo expandCard={expandCard}>jhgfd</MoreProductInfo>
-        }
+        <MoreProductInfo expandCard={expandCard}>
+          <p>cfxdfcghj</p>
+        </MoreProductInfo>
         <ExpandButton onClick={() => setExpandCard(!expandCard)} >
           {expandCard ?
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">

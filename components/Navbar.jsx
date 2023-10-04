@@ -8,7 +8,8 @@ import { useContext } from 'react';
 import { CartContext } from '@context/CartContext';
 
 const StyledHeader = styled.header`
-  background-color: #fff;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 const LogoContainer = styled(Link)`
   display: flex;
@@ -66,7 +67,7 @@ const Navbar = () => {
           <StyledNav>
             <NavLink href="/">Home</NavLink>
             <NavLink href="/products">Products</NavLink> 
-            <NavLink href="/categories">Categories</NavLink>
+            <NavLink href="/services">Services</NavLink>
             <NavLink href="/account">Account</NavLink>
             <NavLink href="/cart">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">

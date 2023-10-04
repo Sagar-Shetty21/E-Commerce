@@ -6,8 +6,8 @@ const CardWrapper = styled.div`
 `;
 const Card = styled(Link)`
     background-color: #eee;
-    padding: 20px;
-    height: 120px;
+    padding: 15px;
+    height: 160px;
     text-align: center;
     display: flex;
     align-items:center;
@@ -16,6 +16,9 @@ const Card = styled(Link)`
     div{
         width: 100%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     img{
         max-width: 100%;
