@@ -1,3 +1,5 @@
+'use client'
+
 import Center from "@components/Center"
 
 const ServicesPage = () => {
