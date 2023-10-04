@@ -3,6 +3,7 @@ import Link from "next/link";
 
 
 const CardWrapper = styled.div`
+
 `;
 const Card = styled(Link)`
     background-color: #eee;
@@ -23,6 +24,10 @@ const Card = styled(Link)`
     img{
         max-width: 100%;
         max-height: 100%;
+    }
+    @media screen and (max-width: 767px) {
+        height: 130px;
+        padding: 10px;
     }
 `;
 const Title = styled(Link)`

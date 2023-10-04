@@ -12,36 +12,40 @@ const FooterWrapper = styled.footer`
 
 const ContentWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+  
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
 const MenuSection = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex-shrink: 0;
+  gap: 1.1rem;
 
-  @media (min-width: 768px) {
-    gap: 1.1rem;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   .font-oswald {
     font-family: Oswald, sans-serif;
     font-weight: 500;
     text-transform: uppercase;
-    font-size: 0.875rem;
+    font-size: 1.1rem;
   }
 
   a {
     text-decoration: none;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.5);
     font-size: 0.875rem;
     cursor: pointer;
 

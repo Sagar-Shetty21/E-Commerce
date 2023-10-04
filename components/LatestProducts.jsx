@@ -6,6 +6,10 @@ const ProductsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 30px;
+    @media screen and (max-width: 767px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
 `
 const Title = styled.h2`
     font-size: 2rem;

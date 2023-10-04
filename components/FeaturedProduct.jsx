@@ -14,10 +14,16 @@ const Title = styled.h1`
   margin: 0;
   font-weight: normal;
   font-size: 3rem;
+  @media screen and (max-width: 767px) {
+    font-size: 1.6rem;
+  }
 `;
 const Description = styled.p`
   color: #aaa;
   font-size: 0.8rem;
+  @media screen and (max-width: 767px) {
+    font-size: 0.6rem;
+  }
 `;
 const Wrapper = styled.div`
   display: grid;
@@ -28,10 +34,26 @@ const Wrapper = styled.div`
     max-width: 100%;
     width: 100%;
   }
+  @media screen and (max-width: 767px) {
+    padding: 30px 0;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 `;
-const Column = styled.div`
+const InfoColumn = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    order: 2;
+  }
+`;
+const ImageColumn = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 767px) {
+    order: 1;
+    padding: 0 20px;
+  }
 `;
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -46,7 +68,7 @@ const FeaturedProduct = ({data}) => {
     <Background>
       <Center>
         <Wrapper>
-          <Column>
+          <InfoColumn>
             <div>
               <Title>{data?.title}</Title>
               <Description>{data?.description}</Description>
@@ -59,10 +81,10 @@ const FeaturedProduct = ({data}) => {
                 </Link>
               </ButtonsWrapper>
             </div>
-          </Column>
-          <Column>
+          </InfoColumn>
+          <ImageColumn>
             <img src={data?.images?.[0]} />
-          </Column>
+          </ImageColumn>
         </Wrapper>
       </Center>
     </Background>
