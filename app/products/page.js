@@ -11,6 +11,10 @@ const ProductsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
+    @media screen and (max-width: 767px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
 `
 const PageTitle = styled.h1`
     text-align: center;

@@ -10,7 +10,8 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Josefin Sans', sans-serif;
         background-color: #FCFCFF;
         min-height: 100vh;
-    }
+        overflow-x: hidden;
+    } 
     a{
         text-decoration: none;
     }
