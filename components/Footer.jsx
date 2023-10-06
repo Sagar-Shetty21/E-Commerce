@@ -27,9 +27,9 @@ const ContentWrapper = styled.div`
 const MenuSection = styled.div`
   display: flex;
   gap: 1.1rem;
+  flex-direction: column;
 
   @media screen and (max-width: 767px) {
-    flex-direction: column;
     gap: 0.75rem;
     flex-shrink: 0;
     align-items: center;

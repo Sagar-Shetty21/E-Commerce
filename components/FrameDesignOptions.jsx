@@ -67,6 +67,7 @@ const OptionsList = styled.ul`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   max-height: 200px;
   overflow-y: scroll;
+  z-index: 10;
 `;
 
 const OptionItem = styled.li`

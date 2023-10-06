@@ -1,9 +1,8 @@
 'use client'
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { CartContext } from '@context/CartContext';
-import axios from 'axios';
 import CartItem from '@components/CartItem';
 import Center from '@components/Center';
 
@@ -128,24 +127,6 @@ const CartContent = styled.div`
   padding: 1.25rem 0; /* py-10 */
 `;
 
-// Cart items container
-const CartItems = styled.div`
-  flex: 2; /* flex-[2] */
-`;
-
-// Summary container
-const SummaryContainer = styled.div`
-  flex: 1; /* flex-[1] */
-`;
-
-// Summary section
-const SummarySection = styled.div`
-  font-weight: bold;
-  font-size: 1.125rem; /* text-lg */
-  margin-bottom: 1rem; /* mb-5 */
-`;
-
-
 
 // Empty cart message container
 const EmptyCartContainer = styled.div`
@@ -197,7 +178,7 @@ const CartContainer = styled.div`
   gap: 1.5rem; /* gap-12 */
   padding-top: 2.5rem; /* py-10 */
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     flex-direction: row; /* lg:flex-row */
   }
 `;
@@ -206,25 +187,22 @@ const CartContainer = styled.div`
 
 const CartPage = () => {
   const {cartProducts} = useContext(CartContext);
-  const [products, setProducts] = useState([]);
 
   const subTotal = () => {
-    let total = 0;
-    for(const productId of cartProducts){
-      const price = products.find(p => p._id === productId)?.price || 0;
-      total += price;
-    }
-    return total
+    const subtotal = cartProducts.reduce((acc, product) => {
+        return acc + product.price * product.quantity;
+    }, 0);
+    return subtotal;
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     if(cartProducts.length > 0) {
       axios.post('/api/cart', {ids: cartProducts})
         .then(response => {
           setProducts(response.data);
         })
     }
-  }, [cartProducts])
+  }, [cartProducts]) */
 
   return (
     <Center>
@@ -237,8 +215,8 @@ const CartPage = () => {
               <CartItemsContainer>
                 <CartItemsHeading>Cart Items</CartItemsHeading>
                 <CartContent>
-                  {products.map(product => (
-                    <CartItem key={product._id} item={product} quantity={cartProducts.filter(id => id === product._id)?.length}/>
+                  {cartProducts.map((product, i) => (
+                    <CartItem key={i} index={i} item={product} quantity={product.quantity}/>
                   ))}
                 </CartContent>
               </CartItemsContainer>

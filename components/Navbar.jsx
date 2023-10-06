@@ -96,12 +96,18 @@ const NavDrop = styled.div`
     display: flex;
     flex-direction: column;
     padding: 5px;
+    text-align:center;
   }
   a{
     color: #aaa;
     font-weight: bold;
-    padding: 5px;
+    padding: 10px;
   } 
+  hr{
+    margin: 0;
+    border-color: #b8b8b835;
+    margin: 0 80px;
+  }
 `;
 const Backdrop = styled.div`
   position: fixed;
@@ -124,7 +130,7 @@ const Navbar = () => {
         <Center>
           <Wrapper>
             <NavExpandBtn onClick={() => setNavActive(!navActive)}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
               </svg>
             </NavExpandBtn>
@@ -148,9 +154,9 @@ const Navbar = () => {
           </Wrapper>
           {navActive &&
             <NavDrop>
-                <a href="/">Home</a>
-                <a href="/products">Products</a> 
-                <a href="/services">Services</a>
+                <a href="/">Home</a> <hr/>
+                <a href="/products">Products</a> <hr/>
+                <a href="/services">Services</a> <hr/>
                 <a href="/account">Account</a>
             </NavDrop>
           }

@@ -10,10 +10,12 @@ import SizeOptions from "@components/SizeOptions";
 import axios from "axios";
 import { useParams } from 'next/navigation'
 import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useContext } from "react";
 import { CartContext } from "@context/CartContext";
 import toast from "react-hot-toast";
+import FileInput from "@components/FileInput";
+import TextInput from "@components/TextInput";
 
 const Container = styled.div`
   width: 100%;
@@ -108,6 +110,13 @@ const AddToCartBtn = styled.button`
   }
 `;
 
+const Shake = keyframes`
+  0% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+`;
+
 
 const ProductPage = () => {
     const {id} = useParams()
@@ -115,6 +124,8 @@ const ProductPage = () => {
     const sizeRef = useRef(null);
     const colorRef = useRef(null);
     const frameRef = useRef(null);
+    const fileRef = useRef(null);
+    const messageRef = useRef(null);
 
     const {addToCart} = useContext(CartContext)
 
@@ -125,6 +136,8 @@ const ProductPage = () => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedFrameDesign, setSelectedFrameDesign] = useState(null);
+    const [customerFile, setCustomerFile] = useState(null);
+    const [customerMessage, setCustomerMessage] = useState("");
 
     const [productPrice, setProductPrice] = useState("")
 
@@ -140,19 +153,73 @@ const ProductPage = () => {
 
     const handleAddToCart = () => {
       if(product.properties?.dimensions?.length > 0 && !selectedDimension){
-        dimensionRef.current.scrollIntoView({ behavior: 'smooth' });
+        dimensionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        dimensionRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          dimensionRef.current.style.animation = 'none';
+        }, 800);
         toast.error('Please choose a dimension!')
       }else if(product.properties?.size?.length > 0 && !selectedSize){
-        sizeRef.current.scrollIntoView({ behavior: 'smooth' });
+        sizeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        sizeRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          sizeRef.current.style.animation = 'none';
+        }, 800);
         toast.error('Please choose a size!')
       }else if(product.properties?.color?.length > 0 && !selectedColor){
-        colorRef.current.scrollIntoView({ behavior: 'smooth' });
+        colorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        colorRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          colorRef.current.style.animation = 'none';
+        }, 800);
         toast.error('Please choose a color!')
       }else if(product.properties?.frame?.length > 0 && !selectedFrameDesign){
-        frameRef.current.scrollIntoView({ behavior: 'smooth' });
+        frameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        frameRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          frameRef.current.style.animation = 'none';
+        }, 800);
         toast.error('Please choose a frame design!')
+      }else if(product.isFileRequired && !customerFile){
+        fileRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        fileRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          fileRef.current.style.animation = 'none';
+        }, 800);
+        toast.error('Please add a file!')
+      }else if(product.isCustomerInputRequired && !customerMessage ){
+        messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        messageRef.current.style.animation = `shake 0.8s ease-in-out`;
+        setTimeout(() => {
+          messageRef.current.style.animation = 'none';
+        }, 800);
+        toast.error('Please add a message!')
       }else{
-        addToCart(id)
+        const item = {
+          id: id,
+          title: product.title,
+          image: product.images[0],
+          price: productPrice,
+          quantity: 1,
+          properties: (!selectedDimension && !selectedSize && !selectedColor && !selectedFrameDesign && !customerFile && !customerMessage) ? null :
+                      {
+                        dimension: selectedDimension,
+                        size: selectedSize,
+                        color: selectedColor,
+                        frameDesign: selectedFrameDesign,
+                        customerFile: customerFile,
+                        customerMessage: customerMessage
+                      }
+        }
+        addToCart(item)
+
+        setSelectedDimension(null);
+        setSelectedSize(null);
+        setSelectedColor(null);
+        setSelectedFrameDesign(null);
+        setCustomerFile(null);
+        setCustomerMessage("");
+
         toast.success('Item added to cart')
       }
     }
@@ -181,8 +248,9 @@ const ProductPage = () => {
                             {product.properties?.dimensions?.length > 0 && <DimensionOptions ref={dimensionRef} data={product.properties.dimensions} setSelectedDimension={setSelectedDimension} selectedDimension={selectedDimension} setProductPrice={setProductPrice} />}
                             {product.properties?.size?.length > 0 && <SizeOptions ref={sizeRef} data={product.properties.size} setSelectedSize={setSelectedSize} selectedSize={selectedSize} setProductPrice={setProductPrice} />}
                             {product.properties?.color?.length > 0 && <ColorOptions ref={colorRef} data={product.properties.color} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />}
-                            {product.properties?.frame?.length > 0 && <FrameDesignOptions ref={frameRef} data={product.properties.frame} selectedFrameDesign={selectedFrameDesign} setSelectedFrameDesign={setSelectedFrameDesign} setProductPrice={setProductPrice} />}
-
+                            {product.properties?.frame?.length > 0 && <FrameDesignOptions ref={frameRef} data={product.properties.frame} selectedFrameDesign={selectedFrameDesign} setSelectedFrameDesign={setSelectedFrameDesign} />}
+                            {product.isFileRequired && <FileInput ref={fileRef} customerFile={customerFile} setCustomerFile={setCustomerFile} />}
+                            {product.isCustomerInputRequired && <TextInput ref={messageRef} customerMessage={customerMessage} setCustomerMessage={setCustomerMessage} />}
 
                             <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
 

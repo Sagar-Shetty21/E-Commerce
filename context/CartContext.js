@@ -19,26 +19,41 @@ export const CartContextProvider = ({children}) => {
     }
     }, []);
 
-    function removeProduct(id) {
+    function removeProduct(index) {
         setCartProducts(prev => {
-            const pos = prev.indexOf(id);
-            if (pos !== -1) {
-                return prev.filter((value,index) => index !== pos);
-            }
-            return prev;
+            const updatedCartProducts = prev.filter((_, i) => i !== index);
+            return updatedCartProducts;
         });
     }
 
     function clearCart() {
-    setCartProducts([]);
+        setCartProducts([]);
     }
 
-    const addToCart = (id) => {
-        setCartProducts(prev => [...prev,id]);
+    const addToCart = (item) => {
+        setCartProducts(prev => [...prev,item]);
+    }
+
+    const increaseQuantity = (index) => {
+        setCartProducts(prev => {
+            const updatedCartProducts = [...prev]; // Create a copy of the previous state array
+            updatedCartProducts[index].quantity += 1; // Increase the quantity for the specified index
+            return updatedCartProducts;
+        });
+    }
+
+    const decreaseQuantity = (index) => {
+        setCartProducts(prev => {
+            const updatedCartProducts = [...prev]; // Create a copy of the previous state array
+            if (updatedCartProducts[index].quantity > 1) {
+                updatedCartProducts[index].quantity -= 1; // Decrease the quantity for the specified index if it's greater than 1
+            }
+            return updatedCartProducts;
+        });
     }
 
     return(
-        <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, removeProduct, clearCart}}>
+        <CartContext.Provider value={{cartProducts, setCartProducts, addToCart, removeProduct, clearCart, increaseQuantity, decreaseQuantity}}>
             {children}
         </CartContext.Provider>
     )

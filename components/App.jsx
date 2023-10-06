@@ -16,6 +16,13 @@ const App = ({children}) => {
                     <Toaster
                         position="bottom-center"
                         reverseOrder={false}
+                        toastOptions={{
+                            className: '',
+                            style: {
+                                color: '#fcfcfc',
+                                backgroundColor: 'black',
+                            },
+                        }}
                     />
                     <Navbar />
                     <main className="app">
