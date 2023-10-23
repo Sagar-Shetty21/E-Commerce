@@ -1,7 +1,7 @@
 'use client'
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from '@context/CartContext';
 import CartItem from '@components/CartItem';
 import Center from '@components/Center';
@@ -44,7 +44,7 @@ const CartSummaryContainer = styled.div`
 
 // Cart summary heading
 const CartSummaryHeading = styled.div`
-  font-size: 1.125rem; /* text-lg */
+  font-size: 1.125rem; 
   font-weight: bold;
 `;
 
@@ -52,8 +52,8 @@ const CartSummaryHeading = styled.div`
 const SummaryCard = styled.div`
   padding: 1.25rem;
   margin: 1.25rem 0;
-  background-color: rgba(0, 0, 0, 0.05); /* bg-black/[0.05] */
-  border-radius: 0.625rem; /* rounded-xl */
+  background-color: rgba(0, 0, 0, 0.05); 
+  border-radius: 0.625rem; 
 `;
 
 // Subtotal row
@@ -183,10 +183,178 @@ const CartContainer = styled.div`
   }
 `;
 
+const ToggleBtnContainer = styled.div`
+    text-align: center;
+    margin: 15px 0;
+
+    label {
+      font-size: 13px;
+      color: #424242;
+      font-weight: 500;
+    }
+    
+    .btn-color-mode-switch{
+        display: inline-block;
+        margin: 0px;
+        position: relative;
+    }
+
+    .btn-color-mode-switch > label.btn-color-mode-switch-inner{
+        margin: 0px;
+        width: 240px;
+        height: 30px;
+        background: #E0E0E0;
+        border-radius: 26px;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+        display: block;
+    }
+
+    .btn-color-mode-switch > label.btn-color-mode-switch-inner:before{
+        content: "Delivery";
+        position: absolute;
+        font-size: 12px;
+        font-weight: 500;
+        top: 7px;
+        right: 20px;
+
+    }
+
+    .btn-color-mode-switch > label.btn-color-mode-switch-inner:after{
+        content: "Instore pickup";
+        width: 120px;
+        height: 16px;
+        font-weight: bold;
+        background: #fff;
+        border-radius: 26px;
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0px 0px 6px -2px #111;
+        padding: 5px 0px;
+    }
+
+    .btn-color-mode-switch > .alert{
+        display: none;
+        background: #FF9800;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-color-mode-switch input[type="checkbox"]{
+        cursor: pointer;
+        width: 50px;
+        height: 25px;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        margin: 0px;
+    }
+
+    .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner{
+        //background: #151515;
+        ///color: #fff;
+    }
+
+    .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after{
+        content: "Delivery";
+        left: 118px;
+        //background: #3c3c3c;
+    }
+
+    .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before{
+        content: "Instore pickup";
+        right: auto;
+        left: 20px;
+    }
+
+    .btn-color-mode-switch input[type="checkbox"]:checked ~ .alert{
+        display: block;
+    }
+
+`;
+
+const AddressInputContainer = styled.div`
+  width: calc(100% - 18px);
+  padding: 5px;
+  border: 4px solid black;
+  border-radius: 8px;
+  margin: 10px 0;
+`;
+
+const Field = styled.label`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  padding: .25rem;
+  border-radius: .25rem;
+  margin: 5px;
+
+  &:focus-within {
+    border-color: #000;
+  }
+`;
+
+const FieldLabel = styled.span`
+  color: grey;
+  font-size: 0.6rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin-bottom: 0.1rem
+`;
+
+const FieldInput = styled.input`
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  font-weight: bold;
+  font-size: 1rem;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+`;
+const FieldInputArea = styled.textarea`
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  resize: none;
+  font-weight: bold;
+  font-size: 1rem;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+`
 
 
 const CartPage = () => {
   const {cartProducts} = useContext(CartContext);
+  const [deliveryCharges, setDeliveryCharges] = useState(0);
+  const [deliveryActive, setDeliveryActive] = useState(false);
+
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [address, setAddress] = useState("");
 
   const subTotal = () => {
     const subtotal = cartProducts.reduce((acc, product) => {
@@ -195,15 +363,10 @@ const CartPage = () => {
     return subtotal;
   }
 
-  /* useEffect(() => {
-    if(cartProducts.length > 0) {
-      axios.post('/api/cart', {ids: cartProducts})
-        .then(response => {
-          setProducts(response.data);
-        })
-    }
-  }, [cartProducts]) */
-
+  const deliveryAddressActive = () => {
+    setDeliveryCharges(50)
+  }
+  
   return (
     <Center>
       <CartPageContainer>
@@ -224,17 +387,42 @@ const CartPage = () => {
               <CartSummaryContainer>
                 <CartSummaryHeading>Summary</CartSummaryHeading>
                 <SummaryCard>
+                  <ToggleBtnContainer>
+                      <label class="switch btn-color-mode-switch">
+                          <input type="checkbox" name="color_mode" id="color_mode" value={deliveryActive} onChange={() => setDeliveryActive(!deliveryActive)} />
+                          <label for="color_mode" data-on="Dark" data-off="Light" class="btn-color-mode-switch-inner"></label>
+                      </label>
+                  </ToggleBtnContainer>
+                  {deliveryActive && 
+                    <AddressInputContainer>
+                      <Field>
+                        <FieldLabel for="firstname">Name</FieldLabel>
+                        <FieldInput type="text" id="firstname" value={name} onChange={(e) => setName(e.target.value)} />
+                      </Field>
+                      <Field>
+                        <FieldLabel for="contact">Contact number</FieldLabel>
+                        <FieldInput type="number" id="contact" value={number} onChange={(e) => setNumber(e.target.value)} />
+                      </Field>
+                      <Field>
+                        <FieldLabel for="zipcode">Pincode</FieldLabel>
+                        <FieldInput type="number" id="zipcode" value={pincode} onChange={(e) => setPincode(e.target.value)} />
+                      </Field>
+                      <Field>
+                        <FieldLabel for="address">Address</FieldLabel>
+                        <FieldInputArea rows="4" type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                      </Field>
+                    </AddressInputContainer>
+                  }
                   <SubtotalRow>
                     <SubtotalLabel>Subtotal</SubtotalLabel>
-                    <SubtotalValue>&#8377;{subTotal()}</SubtotalValue>
+                    <SubtotalValue>&#8377;{subTotal() + deliveryCharges}</SubtotalValue>
                   </SubtotalRow>
                   <SubtotalExplanation>
-                    The subtotal reflects the total price of your order, including duties and taxes, before any applicable discounts. It does not include delivery costs and international transaction fees.
+                    The subtotal reflects the total price of your order, including duties and taxes, before any applicable discounts. It does not include any transaction fees.
                   </SubtotalExplanation>
                 </SummaryCard>
-                <CheckoutButton onClick={() => console.log("pay")}>
+                <CheckoutButton onClick={() => console.log("paying "+ subTotal())}>
                   Checkout
-                  {/* {loading && <img src="/spinner.svg" alt="Loading" />} */}
                 </CheckoutButton>
               </CartSummaryContainer>
             </CartContainer>
@@ -247,7 +435,7 @@ const CartPage = () => {
             <EmptyCartText>
               Looks like you have not added anything in your cart.
               <br />
-              Go ahead and explore top categories.
+              Go ahead and explore our top products.
             </EmptyCartText>
             <ContinueShoppingButton href="/">Continue Shopping</ContinueShoppingButton>
           </EmptyCartContainer>
